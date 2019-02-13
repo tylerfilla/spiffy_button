@@ -66,6 +66,7 @@ void main() {
           ),
         );
       },
+      // TODO: Any way to expect the message on the exception?
       throwsAssertionError,
     );
   });
@@ -83,5 +84,57 @@ void main() {
     );
 
     expect(key.currentState, isNotNull);
+  });
+
+  testWidgets('pressed event callback', (tester) async {
+    final key = UniqueKey();
+    final onPressed = expectAsync0(() {}, id: 'onPressed', reason: 'explicit pressed event callback');
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+
+    await tester.tap(find.byKey(key));
+  });
+
+  testWidgets('touch-down event callback', (tester) async {
+    final key = UniqueKey();
+    final onTouchDown = expectAsync0(() {}, id: 'onTouchDown', reason: 'explicit touch-down event callback');
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+          onTouchDown: onTouchDown,
+        ),
+      ),
+    );
+
+    // Just test the press (not the whole tap)
+    await tester.press(find.byKey(key));
+  });
+
+  testWidgets('touch-up event callback', (tester) async {
+    final key = UniqueKey();
+    final onTouchUp = expectAsync0(() {}, id: 'onTouchUp', reason: 'explicit touch-up event callback');
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+          onTouchUp: onTouchUp,
+        ),
+      ),
+    );
+
+    await tester.tap(find.byKey(key));
   });
 }

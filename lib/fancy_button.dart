@@ -56,10 +56,29 @@ class FancyButton extends StatefulWidget {
   /// At least one of [icon] and [label] must be non-null.
   final Widget label;
 
+  /// The button pressed callback.
+  ///
+  /// This is triggered after a full touch-down/touch-up cycle. See the
+  /// [onTouchDown] and [onTouchUp] callbacks for specifics on those events.
+  final VoidCallback onPressed;
+
+  /// The button touch down callback.
+  ///
+  /// This is triggered when the user places their finger on the button.
+  final VoidCallback onTouchDown;
+
+  /// The button touch up callback.
+  ///
+  /// This is triggered when the user releases their finger from the button.
+  final VoidCallback onTouchUp;
+
   FancyButton({
     Key key,
     this.icon,
     this.label,
+    this.onPressed,
+    this.onTouchDown,
+    this.onTouchUp,
   })  : assert((icon ?? label) != null, 'one of icon and label must be non-null'),
         super(key: key);
 
@@ -71,6 +90,31 @@ class FancyButton extends StatefulWidget {
 
 /// State for a fancy button.
 class _FancyButtonState extends State<FancyButton> {
+  /// Called when the highlight state of the button ink well changes. This is
+  /// used to drive the touch-down and touch-up events of the fancy button.
+  void _onInkWellHighlightChanged(bool value) {
+    if (value) {
+      if (widget.onTouchDown != null) {
+        widget.onTouchDown();
+      }
+    } else {
+      if (widget.onTouchUp != null) {
+        widget.onTouchUp();
+      }
+    }
+  }
+
+  /// Called when the button ink well is tapped. This is used to drive the
+  /// pressed event of the fancy button. Also, by supplying an internal callback
+  /// for the ink well's tap event, the ink well is permanently enabled
+  /// regardless of the user's choice to supply a pressed callback to the fancy
+  /// button.
+  void _onInkWellTap() {
+    if (widget.onPressed != null) {
+      widget.onPressed();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -80,12 +124,17 @@ class _FancyButtonState extends State<FancyButton> {
         elevation: 6.0,
         shape: const CircleBorder(),
         type: MaterialType.button,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(child: widget.icon),
-            Container(child: widget.label),
-          ],
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onHighlightChanged: _onInkWellHighlightChanged,
+          onTap: _onInkWellTap,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(child: widget.icon),
+              Container(child: widget.label),
+            ],
+          ),
         ),
       ),
     );

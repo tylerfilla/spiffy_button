@@ -40,6 +40,9 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FancyButton(
         icon: const Icon(Icons.cake),
         label: const Text('LIE'),
+        onPressed: () => print('on pressed'),
+        onTouchDown: () => print('on touch down'),
+        onTouchUp: () => print('on touch up'),
       ),
     );
   }
