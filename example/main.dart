@@ -25,11 +25,21 @@ import 'package:fancy_button/fancy_button.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(Example());
+}
+
+class Example extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'fancy_button',
+      theme: ThemeData(
+        primaryColor: Colors.deepPurple,
+        accentColor: Colors.amberAccent,
+      ),
       home: HomePage(),
-    ),
-  );
+    );
+  }
 }
 
 class HomePage extends StatelessWidget {

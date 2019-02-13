@@ -46,6 +46,16 @@ enum FancyButtonPose {
 /// (FAB) with better support for its fancy animations between states than the
 /// built-in [FloatingActionButton] implementation.
 class FancyButton extends StatefulWidget {
+  /// The background color. This is used for the button surface.
+  ///
+  /// By default, the inherited theme's accent color is used.
+  final Color backgroundColor;
+
+  /// The foreground color. This is used for the icon and text label.
+  ///
+  /// By default, the inherited theme's accent icon color is used.
+  final Color foregroundColor;
+
   /// The child icon widget.
   ///
   /// At least one of [icon] and [label] must be non-null.
@@ -74,6 +84,8 @@ class FancyButton extends StatefulWidget {
 
   FancyButton({
     Key key,
+    this.backgroundColor,
+    this.foregroundColor,
     this.icon,
     this.label,
     this.onPressed,
@@ -117,13 +129,22 @@ class _FancyButtonState extends State<FancyButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final bg = widget.backgroundColor ?? theme.accentColor;
+    final fg = widget.foregroundColor ?? theme.accentIconTheme.color;
+
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 56.0, height: 56.0),
       child: Material(
-        color: Colors.white,
+        color: bg,
         elevation: 6.0,
         shape: const CircleBorder(),
         type: MaterialType.button,
+        textStyle: theme.accentTextTheme.button.copyWith(
+          color: fg,
+          letterSpacing: 1.2,
+        ),
         child: InkWell(
           customBorder: const CircleBorder(),
           onHighlightChanged: _onInkWellHighlightChanged,
@@ -131,7 +152,10 @@ class _FancyButtonState extends State<FancyButton> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Container(child: widget.icon),
+              IconTheme.merge(
+                data: theme.accentIconTheme.copyWith(color: fg),
+                child: Container(child: widget.icon),
+              ),
               Container(child: widget.label),
             ],
           ),

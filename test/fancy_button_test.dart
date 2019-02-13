@@ -137,4 +137,46 @@ void main() {
 
     await tester.tap(find.byKey(key));
   });
+
+  testWidgets('create with theme colors', (tester) async {
+    final iconKey = UniqueKey();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.deepPurple,
+          accentColor: Colors.amberAccent,
+        ),
+        home: Scaffold(
+          floatingActionButton: FancyButton(
+            icon: Icon(Icons.cake, key: iconKey),
+          ),
+        ),
+      ),
+    );
+
+    await expectLater(find.byKey(iconKey), matchesGoldenFile('golden/theme.png'));
+  });
+
+  testWidgets('create with overridden colors', (tester) async {
+    final iconKey = UniqueKey();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.deepPurple,
+          accentColor: Colors.amberAccent,
+        ),
+        home: Scaffold(
+          floatingActionButton: FancyButton(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            icon: Icon(Icons.cake, key: iconKey),
+          ),
+        ),
+      ),
+    );
+
+    await expectLater(find.byKey(iconKey), matchesGoldenFile('golden/override.png'));
+  });
 }
