@@ -148,8 +148,10 @@ void main() {
           accentColor: Colors.amberAccent,
         ),
         home: Scaffold(
-          floatingActionButton: FancyButton(
-            icon: Icon(Icons.cake, key: iconKey),
+          floatingActionButton: RepaintBoundary(
+            child: FancyButton(
+              icon: Icon(Icons.cake, key: iconKey),
+            ),
           ),
         ),
       ),
@@ -168,10 +170,12 @@ void main() {
           accentColor: Colors.amberAccent,
         ),
         home: Scaffold(
-          floatingActionButton: FancyButton(
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
-            icon: Icon(Icons.cake, key: iconKey),
+          floatingActionButton: RepaintBoundary(
+            child: FancyButton(
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              icon: Icon(Icons.cake, key: iconKey),
+            ),
           ),
         ),
       ),
