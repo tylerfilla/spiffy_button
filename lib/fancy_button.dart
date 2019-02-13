@@ -23,4 +23,26 @@
 
 library fancy_button;
 
+import 'package:flutter/material.dart';
+
+/// The pose of a fancy button.
+enum FancyButtonPose {
+  /// The button is hidden from view.
+  hidden,
+
+  /// The button is shown, and only its icon is visible.
+  shown_icon,
+
+  /// The button is shown, and only its text label is visible.
+  shown_label,
+
+  /// The button is shown, and its icon and text label are visible.
+  shown_icon_and_label,
+}
+
+/// A fancy button :)
+///
+/// This is a custom implementation of Material Design's floating action button
+/// (FAB) with better support for its fancy animations between states than the
+/// built-in [FloatingActionButton] implementation.
 class FancyButton {}
