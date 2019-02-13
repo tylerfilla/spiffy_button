@@ -56,6 +56,13 @@ class FancyButton extends StatefulWidget {
 class _FancyButtonState extends State<FancyButton> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ConstrainedBox(
+      constraints: const BoxConstraints.tightFor(width: 56.0, height: 56.0),
+      child: Material(
+        elevation: 6.0,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
