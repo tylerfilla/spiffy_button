@@ -45,4 +45,17 @@ enum FancyButtonPose {
 /// This is a custom implementation of Material Design's floating action button
 /// (FAB) with better support for its fancy animations between states than the
 /// built-in [FloatingActionButton] implementation.
-class FancyButton {}
+class FancyButton extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _FancyButtonState();
+  }
+}
+
+/// State for a fancy button.
+class _FancyButtonState extends State<FancyButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
