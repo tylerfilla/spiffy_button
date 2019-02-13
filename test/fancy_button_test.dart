@@ -21,8 +21,12 @@
  *    distribution.
  */
 
+import 'dart:convert';
+import 'dart:ui' as ui;
+
 import 'package:fancy_button/fancy_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -139,7 +143,7 @@ void main() {
   });
 
   testWidgets('create with theme colors', (tester) async {
-    final iconKey = UniqueKey();
+    final key = GlobalKey();
 
     await tester.pumpWidget(
       MaterialApp(
@@ -149,38 +153,52 @@ void main() {
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
+            key: key,
             child: FancyButton(
-              icon: Icon(Icons.cake, key: iconKey),
+              icon: Icon(Icons.cake),
             ),
           ),
         ),
       ),
     );
 
-    await expectLater(find.byKey(iconKey), matchesGoldenFile('golden/theme.png'));
+    var capture = await (key.currentContext.findRenderObject() as RenderRepaintBoundary).toImage();
+    var captureBytes = await capture.toByteData(format: ui.ImageByteFormat.png);
+    var captureBase64 = base64.encode(captureBytes.buffer.asUint8List().map((i) => i).toList());
+    print('theme: ' + captureBase64);
+
+    await expectLater(find.byKey(key), matchesGoldenFile('golden/theme.png'));
   });
 
   testWidgets('create with overridden colors', (tester) async {
-    final iconKey = UniqueKey();
+    final key = GlobalKey();
 
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(
+          // These colors SHOULD NOT influence the button
           primaryColor: Colors.deepPurple,
           accentColor: Colors.amberAccent,
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
+            key: key,
             child: FancyButton(
+              // These colors SHOULD influence the button
               backgroundColor: Colors.black,
               foregroundColor: Colors.white,
-              icon: Icon(Icons.cake, key: iconKey),
+              icon: Icon(Icons.cake),
             ),
           ),
         ),
       ),
     );
 
-    await expectLater(find.byKey(iconKey), matchesGoldenFile('golden/override.png'));
+    var capture = await (key.currentContext.findRenderObject() as RenderRepaintBoundary).toImage();
+    var captureBytes = await capture.toByteData(format: ui.ImageByteFormat.png);
+    var captureBase64 = base64.encode(captureBytes.buffer.asUint8List().map((i) => i).toList());
+    print('override: ' + captureBase64);
+
+    await expectLater(find.byKey(key), matchesGoldenFile('golden/override.png'));
   });
 }
