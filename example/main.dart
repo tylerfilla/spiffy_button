@@ -37,7 +37,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('fancy_button')),
-      floatingActionButton: FancyButton(),
+      floatingActionButton: FancyButton(
+        icon: const Icon(Icons.cake),
+        label: const Text('LIE'),
+      ),
     );
   }
 }

@@ -21,4 +21,67 @@
  *    distribution.
  */
 
-void main() {}
+import 'package:fancy_button/fancy_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  testWidgets('create with just icon', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+  });
+
+  testWidgets('create with just label', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          label: const Text('LIE'),
+        ),
+      ),
+    );
+  });
+
+  testWidgets('create with both icon and label', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          icon: const Icon(Icons.cake),
+          label: const Text('LIE'),
+        ),
+      ),
+    );
+  });
+
+  testWidgets('create requires one of icon or label to be non-null', (tester) async {
+    expect(
+      () async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: FancyButton(),
+          ),
+        );
+      },
+      throwsAssertionError,
+    );
+  });
+
+  testWidgets('look up state by global key', (tester) async {
+    final key = GlobalKey();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+
+    expect(key.currentState, isNotNull);
+  });
+}

@@ -46,6 +46,23 @@ enum FancyButtonPose {
 /// (FAB) with better support for its fancy animations between states than the
 /// built-in [FloatingActionButton] implementation.
 class FancyButton extends StatefulWidget {
+  /// The child icon widget.
+  ///
+  /// At least one of [icon] and [label] must be non-null.
+  final Widget icon;
+
+  /// The child label widget.
+  ///
+  /// At least one of [icon] and [label] must be non-null.
+  final Widget label;
+
+  FancyButton({
+    Key key,
+    this.icon,
+    this.label,
+  })  : assert((icon ?? label) != null, 'one of icon and label must be non-null'),
+        super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _FancyButtonState();
@@ -59,9 +76,17 @@ class _FancyButtonState extends State<FancyButton> {
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 56.0, height: 56.0),
       child: Material(
+        color: Colors.white,
         elevation: 6.0,
         shape: const CircleBorder(),
-        child: const Icon(Icons.add),
+        type: MaterialType.button,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(child: widget.icon),
+            Container(child: widget.label),
+          ],
+        ),
       ),
     );
   }
