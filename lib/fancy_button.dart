@@ -205,18 +205,79 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           customBorder: const CircleBorder(),
           onHighlightChanged: _onInkWellHighlightChanged,
           onTap: _onInkWellTap,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconTheme.merge(
-                data: theme.accentIconTheme.copyWith(color: fg),
-                child: Container(child: widget.icon),
-              ),
-              Container(child: widget.label),
-            ],
+          child: _FancyButtonCore(
+            icon: IconTheme.merge(
+              data: theme.accentIconTheme.copyWith(color: fg),
+              child: Container(child: widget.icon),
+            ),
+            label: Container(child: widget.label),
+            toPose: _poseCurrent,
+            fromPose: _posePrevious,
+            progress: _poseAnimation.value,
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The core of a fancy button.
+///
+/// This widget combines the icon and label of a Material Design-style floating
+/// action button (FAB) into a single "core" evaluated at an instant in time.
+/// Transitions involving complex icon-label interactions for different combos
+/// of leading/lagging poses are processed by this widget using a collection of
+/// independent tweens solved at a single, given progress value.
+///
+/// When creating this widget, pass in the from (lagging) and to (leading) poses
+/// in the current transition, if applicable, as well as the progress (from zero
+/// to one, inclusive) of the transition. If no transition is in progress, pass
+/// in a progress of zero and ignore the from (lagging) pose. Consequently, the
+/// from (lagging) pose is optional. The core widget will solve for the given
+/// progress between the two given poses (or, degenerately, the one given pose).
+class _FancyButtonCore extends StatelessWidget {
+  /// The button icon.
+  ///
+  /// At least one of [icon] and [label] must be non-null.
+  final Widget icon;
+
+  /// The button label.
+  ///
+  /// At least one of [icon] and [label] must be non-null.
+  final Widget label;
+
+  /// The leading pose in the current transition.
+  final FancyButtonPose toPose;
+
+  /// The lagging pose in the current transition.
+  ///
+  /// This is ignored if, and only if, progress is zero.
+  final FancyButtonPose fromPose;
+
+  /// The progress of the current transition.
+  final double progress;
+
+  _FancyButtonCore({
+    Key key,
+    this.icon,
+    this.label,
+    @required this.toPose,
+    this.fromPose,
+    @required this.progress,
+  })  : // Assert one of icon and/or label non-null
+        assert((icon ?? label) != null),
+        // Assert fromPose non-null when progress > 0
+        assert((progress == 0 ? progress : fromPose) != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        icon,
+        label,
+      ],
     );
   }
 }
