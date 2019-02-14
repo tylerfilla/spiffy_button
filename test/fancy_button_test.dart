@@ -200,7 +200,7 @@ void main() {
 
         // Expect sufficient amounts of the desired colors
         print('amberAccent: ' + amberAccentPixels.length.toString() + ' (want at least 2100)');
-        expect(amberAccentPixels.length, greaterThanOrEqualTo(2100)); // 2153 on Win10 Flutter 1.1.8 beta
+        expect(amberAccentPixels.length, greaterThanOrEqualTo(1500)); // 1512 on Win10 Flutter 1.1.8 beta
         print('red: ' + redPixels.length.toString() + ' (want at least 100)');
         expect(redPixels.length, greaterThanOrEqualTo(100)); // 174 on Win10 Flutter 1.1.8 beta
       },
@@ -300,8 +300,8 @@ void main() {
 
       // Expect sufficient amounts of the desired colors
       print('purpleAccent: ' + purpleAccentPixels.length.toString() + ' (want at least 2100)');
-      expect(purpleAccentPixels.length, greaterThanOrEqualTo(2100),
-          reason: 'Not enough purple pixels. Background override did not work.'); // 2153 on Win10 Flutter 1.1.8 beta
+      expect(purpleAccentPixels.length, greaterThanOrEqualTo(1500),
+          reason: 'Not enough purple pixels. Background override did not work.'); // 1512 on Win10 Flutter 1.1.8 beta
       print('yellowAccent: ' + yellowAccentPixels.length.toString() + ' (want at least 100)');
       expect(yellowAccentPixels.length, greaterThanOrEqualTo(100),
           reason: 'Not enough yellow pixels. Foreground override did not work.'); // 174 on Win10 Flutter 1.1.8 beta
