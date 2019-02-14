@@ -101,7 +101,28 @@ class FancyButton extends StatefulWidget {
 }
 
 /// State for a fancy button.
-class _FancyButtonState extends State<FancyButton> {
+class _FancyButtonState extends State<FancyButton> with SingleTickerProviderStateMixin {
+  /// The pose animation controller.
+  AnimationController _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize pose animation
+    _animation = AnimationController(
+      vsync: this,
+      // TODO: Eventually, we want to break this out
+      duration: const Duration(milliseconds: 233),
+    )..addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _animation.dispose();
+    super.dispose();
+  }
+
   /// Called when the highlight state of the button ink well changes. This is
   /// used to drive the touch-down and touch-up events of the fancy button.
   void _onInkWellHighlightChanged(bool value) {
