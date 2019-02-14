@@ -191,26 +191,26 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
     final fg = widget.foregroundColor ?? theme.accentIconTheme.color;
 
     return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(width: 56.0, height: 56.0),
+      constraints: const BoxConstraints(minWidth: 48.0, minHeight: 48.0, maxHeight: 48.0),
       child: Material(
         color: bg,
         elevation: 6.0,
-        shape: const CircleBorder(),
+        shape: const StadiumBorder(),
         type: MaterialType.button,
         textStyle: theme.accentTextTheme.button.copyWith(
           color: fg,
           letterSpacing: 1.2,
         ),
         child: InkWell(
-          customBorder: const CircleBorder(),
+          customBorder: const StadiumBorder(),
           onHighlightChanged: _onInkWellHighlightChanged,
           onTap: _onInkWellTap,
           child: _FancyButtonCore(
             icon: IconTheme.merge(
               data: theme.accentIconTheme.copyWith(color: fg),
-              child: Container(child: widget.icon),
+              child: widget.icon,
             ),
-            label: Container(child: widget.label),
+            label: widget.label,
             toPose: _poseCurrent,
             fromPose: _posePrevious,
             progress: _poseAnimation.value,
@@ -235,6 +235,50 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
 /// in a progress of zero and ignore the from (lagging) pose. Consequently, the
 /// from (lagging) pose is optional. The core widget will solve for the given
 /// progress between the two given poses (or, degenerately, the one given pose).
+///
+/// The core has two user-facing children:
+///   - Icon widget
+///   - Label widget
+///
+/// These are both widgets supplied to the core constructor.
+///
+/// The core layout thus has five abstract regions that influence its visuals:
+///   - Padding
+///   - Icon widget
+///   - Padding
+///   - Label widget
+///   - Padding
+///
+/// These three regions of padding are not represented by physical widgets, but
+/// they are animated during pose transitions all the same.
+///
+/// For implementation's sake, the center padding is split into six concrete
+/// elements yielding the following layout:
+///   - Padding A
+///   - Icon widget
+///   - Padding B
+///   - Padding C
+///   - Label widget
+///   - Padding D
+///
+/// This differentiation between paddings B and C is hopefully not perceptible
+/// for the end user (although, with a nonlinear motion curve, there *is* a
+/// difference...but it's small :). Anyway, it helps us make another logical
+/// leap to further divide and conquer the animation problem...
+///
+/// These six concrete elements of the layout are then split into two groups:
+///   - Group 1
+///     - Padding A
+///     - Icon widget
+///     - Padding B
+///   - Group 2
+///     - Padding C
+///     - Label widget
+///     - Padding D
+///
+/// This split establishes a semantic boundary between the icon, its padding,
+/// the label, and the label's padding. This makes animating in/out either the
+/// icon or the widget, with its respective padding, pretty easy.
 class _FancyButtonCore extends StatelessWidget {
   /// The button icon.
   ///
@@ -270,13 +314,41 @@ class _FancyButtonCore extends StatelessWidget {
         assert((progress == 0 ? progress : fromPose) != null),
         super(key: key);
 
+  /// Compute the width factor of group 1.
+  double _computeWidthFactor1() {
+    return 1.0;
+  }
+
+  /// Build the group 1 widget.
+  Widget _buildGroup1() {
+    return Align(
+      alignment: AlignmentDirectional.centerEnd,
+      widthFactor: _computeWidthFactor1(),
+      child: icon,
+    );
+  }
+
+  /// Compute the width factor of group 2.
+  double _computeWidthFactor2() {
+    return 1.0;
+  }
+
+  /// Build the group 2 widget.
+  Widget _buildGroup2() {
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      widthFactor: _computeWidthFactor2(),
+      child: label,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        icon,
-        label,
+        _buildGroup1(),
+        _buildGroup2(),
       ],
     );
   }
