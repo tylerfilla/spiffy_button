@@ -189,4 +189,52 @@ void main() {
 
     await expectLater(find.byKey(key), matchesGoldenFile('golden/override.png'));
   });
+
+  testWidgets('default pose propagation', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+
+    expect(key.currentState.pose, equals(FancyButtonPose.shown_icon));
+  });
+
+  testWidgets('initial pose propagation', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+          initialPose: FancyButtonPose.shown_icon_and_label,
+        ),
+      ),
+    );
+
+    expect(key.currentState.pose, equals(FancyButtonPose.shown_icon_and_label));
+  });
+
+  testWidgets('updated pose propagation (roundtrip)', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+
+    key.currentState.pose = FancyButtonPose.shown_label;
+
+    expect(key.currentState.pose, equals(FancyButtonPose.shown_label));
+  });
 }

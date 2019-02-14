@@ -66,6 +66,11 @@ class FancyButton extends StatefulWidget {
   /// At least one of [icon] and [label] must be non-null.
   final Widget label;
 
+  /// The initial pose.
+  ///
+  /// By default, this is [FancyButtonPose.shown_icon].
+  final FancyButtonPose initialPose;
+
   /// The button pressed callback.
   ///
   /// This is triggered after a full touch-down/touch-up cycle. See the
@@ -88,6 +93,7 @@ class FancyButton extends StatefulWidget {
     this.foregroundColor,
     this.icon,
     this.label,
+    this.initialPose = FancyButtonPose.shown_icon,
     this.onPressed,
     this.onTouchDown,
     this.onTouchUp,
@@ -96,31 +102,60 @@ class FancyButton extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _FancyButtonState();
+    return FancyButtonState();
   }
 }
 
-/// State for a fancy button.
-class _FancyButtonState extends State<FancyButton> with SingleTickerProviderStateMixin {
+/// State and control for a fancy button.
+class FancyButtonState extends State<FancyButton> with SingleTickerProviderStateMixin {
   /// The pose animation controller.
-  AnimationController _animation;
+  AnimationController _poseAnimation;
+
+  /// The current pose.
+  FancyButtonPose _poseCurrent;
+
+  /// The previous pose.
+  FancyButtonPose _posePrevious;
 
   @override
   void initState() {
     super.initState();
 
     // Initialize pose animation
-    _animation = AnimationController(
+    _poseAnimation = AnimationController(
       vsync: this,
-      // TODO: Eventually, we want to break this out
+      // TODO: Eventually, we might want to break this out
       duration: const Duration(milliseconds: 233),
     )..addListener(() => setState(() {}));
+
+    // Initialize pose
+    // TODO: This hardcodes an entrance animation (we might not want this)
+    _poseCurrent = FancyButtonPose.hidden;
+    pose = widget.initialPose;
   }
 
   @override
   void dispose() {
-    _animation.dispose();
+    _poseAnimation.dispose();
     super.dispose();
+  }
+
+  /// Get the current pose.
+  get pose => _poseCurrent;
+
+  /// Set the current pose.
+  set pose(FancyButtonPose pose) {
+    // If this pose is already current, do nothing
+    if (pose == _poseCurrent) return;
+
+    // Update pose state
+    setState(() {
+      _posePrevious = _poseCurrent;
+      _poseCurrent = pose;
+    });
+
+    // Start the transition animation
+    _poseAnimation.forward(from: 0);
   }
 
   /// Called when the highlight state of the button ink well changes. This is
