@@ -125,7 +125,7 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
     _poseAnimation = AnimationController(
       vsync: this,
       // TODO: Eventually, we might want to break this out
-      duration: const Duration(milliseconds: 233),
+      duration: const Duration(milliseconds: 333),
     )..addListener(() => setState(() {}));
 
     // Initialize pose
@@ -185,6 +185,154 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
     }
   }
 
+  /// Compute the minimum width constraint.
+  double _computeMinWidth() {
+    switch (_posePrevious) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 56.0 to 48.0
+            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 48.0 to 56.0
+            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
+    return 0;
+  }
+
+  /// Compute the maximum width constraint.
+  double _computeMaxWidth() {
+    switch (_posePrevious) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Invariant: The max width remains unconstrained
+            return double.infinity;
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Invariant: The max width remains unconstrained
+            return double.infinity;
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
+    return 0;
+  }
+
+  /// Compute the minimum height constraint.
+  double _computeMinHeight() {
+    switch (_posePrevious) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 56.0 to 48.0
+            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 48.0 to 56.0
+            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
+    return 0;
+  }
+
+  /// Compute the maximum height constraint.
+  double _computeMaxHeight() {
+    switch (_posePrevious) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 56.0 to 48.0
+            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 48.0 to 56.0
+            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -193,7 +341,12 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
     final fg = widget.foregroundColor ?? theme.accentIconTheme.color;
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 48.0, minHeight: 48.0, maxHeight: 48.0),
+      constraints: BoxConstraints(
+        minWidth: _computeMinWidth(),
+        maxWidth: _computeMaxWidth(),
+        minHeight: _computeMinHeight(),
+        maxHeight: _computeMaxHeight(),
+      ),
       child: Material(
         color: bg,
         elevation: 6.0,
@@ -554,9 +707,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             throw 'not implemented';
           case FancyButtonPose.shown_icon_and_label:
-          // Tween from 0.0 to 6.0
-            return Tween(begin: 0.0, end: 6.0)
-                .transform(Curves.fastOutSlowIn.transform(progress));
+            // Tween from 0.0 to 6.0
+            return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_label:
@@ -566,9 +718,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.hidden:
             throw 'not implemented';
           case FancyButtonPose.shown_icon:
-          // Tween from 6.0 to 0.0
-            return Tween(begin: 6.0, end: 0.0)
-                .transform(Curves.fastOutSlowIn.transform(progress));
+            // Tween from 6.0 to 0.0
+            return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
             throw 'not implemented';
           case FancyButtonPose.shown_icon_and_label:
@@ -593,9 +744,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             throw 'not implemented';
           case FancyButtonPose.shown_icon_and_label:
-          // Tween from 0.0 to 20.0
-            return Tween(begin: 0.0, end: 20.0)
-                .transform(Curves.fastOutSlowIn.transform(progress));
+            // Tween from 0.0 to 20.0
+            return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_label:
@@ -605,9 +755,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.hidden:
             throw 'not implemented';
           case FancyButtonPose.shown_icon:
-          // Tween from 20.0 to 0.0
-            return Tween(begin: 20.0, end: 0.0)
-                .transform(Curves.fastOutSlowIn.transform(progress));
+            // Tween from 20.0 to 0.0
+            return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
             throw 'not implemented';
           case FancyButtonPose.shown_icon_and_label:
