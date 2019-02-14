@@ -206,7 +206,7 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           onHighlightChanged: _onInkWellHighlightChanged,
           onTap: _onInkWellTap,
           child: _FancyButtonCore(
-            icon: IconTheme.merge(
+            icon: widget.icon == null ? null : IconTheme.merge(
               data: theme.accentIconTheme.copyWith(color: fg),
               child: widget.icon,
             ),
