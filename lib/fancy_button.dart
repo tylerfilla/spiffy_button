@@ -154,6 +154,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
       _poseCurrent = pose;
     });
 
+    print(pose);
+
     // Start the transition animation
     _poseAnimation.forward(from: 0);
   }
@@ -318,41 +320,301 @@ class _FancyButtonCore extends StatelessWidget {
 
   /// Compute the width factor of group 1.
   double _computeWidthFactor1() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Invariant: The icon stays visible
+            return 1.0;
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Invariant: The icon stays visible
+            return 1.0;
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 1.0;
   }
 
   /// Compute the width factor of group 2.
   double _computeWidthFactor2() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 0.0 to 1.0
+            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 1.0 to 0.0
+            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 1.0;
   }
 
   /// Compute the opacity of group 1.
   double _computeOpacity1() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Invariant: The icon stays visible
+            return 1.0;
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Invariant: The icon stays visible
+            return 1.0;
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 1.0;
   }
 
   /// Compute the opacity of group 2.
   double _computeOpacity2() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 0.0 to 1.0
+            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 1.0 to 0.0
+            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 1.0;
   }
 
   /// Compute padding A.
   double _computePaddingA() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 16.0 to 12.0
+            return Tween(begin: 16.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 12.0 to 16.0
+            return Tween(begin: 12.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 12.0;
   }
 
   /// Compute padding B.
   double _computePaddingB() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            // Tween from 16.0 to 0.0
+            return Tween(begin: 16.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            // Tween from 0.0 to 16.0
+            return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 6.0;
   }
 
   /// Compute padding C.
   double _computePaddingC() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+          // Tween from 0.0 to 6.0
+            return Tween(begin: 0.0, end: 6.0)
+                .transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+          // Tween from 6.0 to 0.0
+            return Tween(begin: 6.0, end: 0.0)
+                .transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 6.0;
   }
 
   /// Compute padding D.
   double _computePaddingD() {
+    switch (fromPose) {
+      case FancyButtonPose.hidden:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+            throw 'not implemented';
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+          // Tween from 0.0 to 20.0
+            return Tween(begin: 0.0, end: 20.0)
+                .transform(Curves.fastOutSlowIn.transform(progress));
+        }
+        break;
+      case FancyButtonPose.shown_label:
+        throw 'not implemented';
+      case FancyButtonPose.shown_icon_and_label:
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon:
+          // Tween from 20.0 to 0.0
+            return Tween(begin: 20.0, end: 0.0)
+                .transform(Curves.fastOutSlowIn.transform(progress));
+          case FancyButtonPose.shown_label:
+            throw 'not implemented';
+          case FancyButtonPose.shown_icon_and_label:
+            throw 'not implemented';
+        }
+    }
+
     return 20.0;
   }
 
