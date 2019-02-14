@@ -1,7 +1,5 @@
-os:
-  - linux
-
-sudo: false
+language: generic
+os: linux
 
 addons:
   apt:
@@ -9,17 +7,14 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - libstdc++6
-      - fonts-droid
 
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b beta
-  - ./flutter/bin/flutter doctor
+  - ./.travis/before_script.sh
 
 script:
-  - ./flutter/bin/flutter test
+  - ./.travis/script.sh
 
 cache:
   directories:
+    - $HOME/flutter
     - $HOME/.pub-cache
-
-# This script was adapted from https://github.com/yjbanov/flutter_travis_sample
