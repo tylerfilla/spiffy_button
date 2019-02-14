@@ -298,7 +298,7 @@ void main() {
                   Colors.yellowAccent.red;
         });
 
-      // Expect NONE of the theme colors
+      // Expect sufficient amounts of the desired colors
       print('purpleAccent: ' + purpleAccentPixels.length.toString() + ' (want at least 2100)');
       expect(purpleAccentPixels.length, greaterThanOrEqualTo(2100),
           reason: 'Not enough purple pixels. Background override did not work.'); // 2153 on Win10 Flutter 1.1.8 beta
