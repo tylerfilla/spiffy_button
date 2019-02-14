@@ -206,10 +206,12 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           onHighlightChanged: _onInkWellHighlightChanged,
           onTap: _onInkWellTap,
           child: _FancyButtonCore(
-            icon: widget.icon == null ? null : IconTheme.merge(
-              data: theme.accentIconTheme.copyWith(color: fg),
-              child: widget.icon,
-            ),
+            icon: widget.icon == null
+                ? null
+                : IconTheme.merge(
+                    data: theme.accentIconTheme.copyWith(color: fg),
+                    child: widget.icon,
+                  ),
             label: widget.label,
             toPose: _poseCurrent,
             fromPose: _posePrevious,
@@ -319,18 +321,57 @@ class _FancyButtonCore extends StatelessWidget {
     return 1.0;
   }
 
+  /// Compute the width factor of group 2.
+  double _computeWidthFactor2() {
+    return 1.0;
+  }
+
+  /// Compute the opacity of group 1.
+  double _computeOpacity1() {
+    return 1.0;
+  }
+
+  /// Compute the opacity of group 2.
+  double _computeOpacity2() {
+    return 1.0;
+  }
+
+  /// Compute padding A.
+  double _computePaddingA() {
+    return 12.0;
+  }
+
+  /// Compute padding B.
+  double _computePaddingB() {
+    return 6.0;
+  }
+
+  /// Compute padding C.
+  double _computePaddingC() {
+    return 6.0;
+  }
+
+  /// Compute padding D.
+  double _computePaddingD() {
+    return 20.0;
+  }
+
   /// Build the group 1 widget.
   Widget _buildGroup1() {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       widthFactor: _computeWidthFactor1(),
-      child: icon,
+      child: Container(
+        padding: EdgeInsets.only(
+          left: _computePaddingA(),
+          right: _computePaddingB(),
+        ),
+        child: Opacity(
+          opacity: _computeOpacity1(),
+          child: icon,
+        ),
+      ),
     );
-  }
-
-  /// Compute the width factor of group 2.
-  double _computeWidthFactor2() {
-    return 1.0;
   }
 
   /// Build the group 2 widget.
@@ -338,7 +379,16 @@ class _FancyButtonCore extends StatelessWidget {
     return Align(
       alignment: AlignmentDirectional.centerStart,
       widthFactor: _computeWidthFactor2(),
-      child: label,
+      child: Container(
+        padding: EdgeInsets.only(
+          left: _computePaddingC(),
+          right: _computePaddingD(),
+        ),
+        child: Opacity(
+          opacity: _computeOpacity2(),
+          child: label,
+        ),
+      ),
     );
   }
 
