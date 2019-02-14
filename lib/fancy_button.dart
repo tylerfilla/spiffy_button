@@ -187,7 +187,7 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final bg = widget.backgroundColor ?? theme.accentColor;
+    final bg = widget.foregroundColor ?? theme.accentColor;
     final fg = widget.foregroundColor ?? theme.accentIconTheme.color;
 
     return ConstrainedBox(

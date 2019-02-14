@@ -21,6 +21,9 @@
  *    distribution.
  */
 
+import 'dart:convert' as convert;
+import 'dart:ui' as ui;
+
 import 'package:fancy_button/fancy_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,21 +61,23 @@ void main() {
   });
 
   testWidgets('create requires one of icon or label to be non-null', (tester) async {
-    expect(
-      () async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: FancyButton(),
-          ),
-        );
-      },
-      // TODO: Any way to expect the message on the exception?
-      throwsAssertionError,
-    );
+    final confirm = expectAsync0(() {}, reason: 'confirmation of proper throw');
+
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: FancyButton(),
+        ),
+      );
+    } catch (e) {
+      if (e is AssertionError && e.message == 'one of icon and label must be non-null') {
+        confirm();
+      }
+    }
   });
 
   testWidgets('look up state by global key', (tester) async {
-    final key = GlobalKey();
+    final key = GlobalKey<FancyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
@@ -87,30 +92,26 @@ void main() {
   });
 
   testWidgets('pressed event callback', (tester) async {
-    final key = UniqueKey();
     final onPressed = expectAsync0(() {}, id: 'onPressed', reason: 'explicit pressed event callback');
 
     await tester.pumpWidget(
       MaterialApp(
         home: FancyButton(
-          key: key,
           icon: const Icon(Icons.cake),
           onPressed: onPressed,
         ),
       ),
     );
 
-    await tester.tap(find.byKey(key));
+    await tester.tap(find.byType(FancyButton));
   });
 
   testWidgets('touch-down event callback', (tester) async {
-    final key = UniqueKey();
     final onTouchDown = expectAsync0(() {}, id: 'onTouchDown', reason: 'explicit touch-down event callback');
 
     await tester.pumpWidget(
       MaterialApp(
         home: FancyButton(
-          key: key,
           icon: const Icon(Icons.cake),
           onTouchDown: onTouchDown,
         ),
@@ -118,76 +119,193 @@ void main() {
     );
 
     // Just test the press (not the whole tap)
-    await tester.press(find.byKey(key));
+    await tester.press(find.byType(FancyButton));
   });
 
   testWidgets('touch-up event callback', (tester) async {
-    final key = UniqueKey();
     final onTouchUp = expectAsync0(() {}, id: 'onTouchUp', reason: 'explicit touch-up event callback');
 
     await tester.pumpWidget(
       MaterialApp(
         home: FancyButton(
-          key: key,
           icon: const Icon(Icons.cake),
           onTouchUp: onTouchUp,
         ),
       ),
     );
 
-    await tester.tap(find.byKey(key));
+    await tester.tap(find.byType(FancyButton));
   });
 
   testWidgets('create with theme colors', (tester) async {
-    final key = GlobalKey();
-
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.deepPurple,
           accentColor: Colors.amberAccent,
+          accentIconTheme: IconThemeData(
+            color: Colors.red,
+          ),
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
-            key: key,
             child: FancyButton(
-              // TODO: Figure out why Travis renders icon differently (font?)
-              icon: const SizedBox(width: 24.0, height: 24.0),
+              icon: const Icon(Icons.cake),
             ),
           ),
         ),
       ),
     );
 
-    await expectLater(find.byKey(key), matchesGoldenFile('golden/theme.png'));
+    // Look up element for button
+    final element = tester.element(find.byType(FancyButton));
+
+    // Look up nearest repaint boundary
+    var ro = element.renderObject;
+    while (!ro.isRepaintBoundary) {
+      ro = ro.parent;
+    }
+
+    final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.runAsync(
+      () async {
+        // Capture image of button
+        var image = await ro.layer.toImage(ro.paintBounds);
+
+        // Dump a Base64-encoded PNG of the image to the console
+        print('data:image/png;base64,' +
+            convert.base64.encode(
+                (await image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List().toList(growable: false)));
+
+        // Get image data for testing pixels
+        var imageData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+
+        // View image pixels as list
+        var imagePixels = imageData.buffer.asUint32List();
+
+        // Count amberAccent-colored pixels
+        var amberAccentPixels = imagePixels.toList()
+          ..retainWhere((p) {
+            return p ==
+                Colors.amberAccent.alpha << 24 |
+                    Colors.amberAccent.blue << 16 |
+                    Colors.amberAccent.green << 8 |
+                    Colors.amberAccent.red;
+          });
+
+        // Count red-colored pixels
+        var redPixels = imagePixels.toList()
+          ..retainWhere((p) {
+            return p == Colors.red.alpha << 24 | Colors.red.blue << 16 | Colors.red.green << 8 | Colors.red.red;
+          });
+
+        // Expect sufficient amounts of the desired colors
+        print('amberAccent: ' + amberAccentPixels.length.toString() + ' (want at least 2100)');
+        expect(amberAccentPixels.length, greaterThanOrEqualTo(2100)); // 2153 on Win10 Flutter 1.1.8 beta
+        print('red: ' + redPixels.length.toString() + ' (want at least 100)');
+        expect(redPixels.length, greaterThanOrEqualTo(100)); // 174 on Win10 Flutter 1.1.8 beta
+      },
+    );
   });
 
   testWidgets('create with overridden colors', (tester) async {
-    final key = GlobalKey();
-
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(
           // These colors SHOULD NOT influence the button
-          primaryColor: Colors.deepPurple,
           accentColor: Colors.amberAccent,
+          accentIconTheme: IconThemeData(
+            color: Colors.red,
+          ),
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
-            key: key,
             child: FancyButton(
-              // These colors SHOULD influence the button
-              backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
-              // TODO: Figure out why Travis renders icon differently (font?)
-              icon: const SizedBox(width: 24.0, height: 24.0),
+              // These colors SHOULD influence the button (unfortunately...they're hideous)
+              backgroundColor: Colors.purpleAccent,
+              foregroundColor: Colors.yellowAccent,
+              icon: const Icon(Icons.cake),
             ),
           ),
         ),
       ),
     );
 
-    await expectLater(find.byKey(key), matchesGoldenFile('golden/override.png'));
+    // Look up element for button
+    final element = tester.element(find.byType(FancyButton));
+
+    // Look up nearest repaint boundary
+    var ro = element.renderObject;
+    while (!ro.isRepaintBoundary) {
+      ro = ro.parent;
+    }
+
+    final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.runAsync(() async {
+      // Capture image of button
+      var image = await ro.layer.toImage(ro.paintBounds);
+
+      // Dump a Base64-encoded PNG of the image to the console
+      print('data:image/png;base64,' +
+          convert.base64.encode(
+              (await image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List().toList(growable: false)));
+
+      // Get image data for testing pixels
+      var imageData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+
+      // View image pixels as list
+      var imagePixels = imageData.buffer.asUint32List();
+
+      // Count amberAccent-colored pixels
+      var amberAccentPixels = imagePixels.toList()
+        ..retainWhere((p) {
+          return p ==
+              Colors.amberAccent.alpha << 24 |
+                  Colors.amberAccent.blue << 16 |
+                  Colors.amberAccent.green << 8 |
+                  Colors.amberAccent.red;
+        });
+
+      // Count red-colored pixels
+      var redPixels = imagePixels.toList()
+        ..retainWhere((p) {
+          return p == Colors.red.alpha << 24 | Colors.red.blue << 16 | Colors.red.green << 8 | Colors.red.red;
+        });
+
+      // Expect NONE of the theme colors
+      print('amberAccent: ' + amberAccentPixels.length.toString() + ' (want absolutely zero)');
+      expect(amberAccentPixels.length, isZero,
+          reason: 'There were amber pixels. The background override did not work.');
+      print('red: ' + redPixels.length.toString() + ' (want absolutely zero)');
+      expect(redPixels.length, isZero, reason: 'There were red pixels. The foreground override did not work.');
+
+      // Count purpleAccent-colored pixels
+      var purpleAccentPixels = imagePixels.toList()
+        ..retainWhere((p) {
+          return p ==
+              Colors.purpleAccent.alpha << 24 |
+                  Colors.purpleAccent.blue << 16 |
+                  Colors.purpleAccent.green << 8 |
+                  Colors.purpleAccent.red;
+        });
+
+      // Count yellowAccent-colored pixels
+      var yellowAccentPixels = imagePixels.toList()
+        ..retainWhere((p) {
+          return p ==
+              Colors.yellowAccent.alpha << 24 |
+                  Colors.yellowAccent.blue << 16 |
+                  Colors.yellowAccent.green << 8 |
+                  Colors.yellowAccent.red;
+        });
+
+      // Expect NONE of the theme colors
+      print('purpleAccent: ' + purpleAccentPixels.length.toString() + ' (want at least 2100)');
+      expect(purpleAccentPixels.length, greaterThanOrEqualTo(2100),
+          reason: 'Not enough purple pixels. Background override did not work.'); // 2153 on Win10 Flutter 1.1.8 beta
+      print('yellowAccent: ' + yellowAccentPixels.length.toString() + ' (want at least 100)');
+      expect(yellowAccentPixels.length, greaterThanOrEqualTo(100),
+          reason: 'Not enough yellow pixels. Foreground override did not work.'); // 174 on Win10 Flutter 1.1.8 beta
+    });
   });
 
   testWidgets('default pose propagation', (tester) async {
