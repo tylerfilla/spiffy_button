@@ -3,7 +3,7 @@
 cd $HOME
 pwd
 
-if [ ! -z ./flutter ]; then
+if [ -z ./flutter ]; then
     echo "~~~ No cached Flutter is available"
     git clone https://github.com/flutter/flutter.git
 fi

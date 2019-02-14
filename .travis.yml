@@ -6,7 +6,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - libstdc++6
+      - lib32stdc++6
 
 before_script:
   - ./.travis/before_script.sh
