@@ -42,14 +42,45 @@ class Example extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _HomePageState();
+  }
+}
+
+class _HomePageState extends State<HomePage> {
+  final _key = GlobalKey<FancyButtonState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start the animation sequence
+    animate();
+  }
+
+  void animate() async {
+    final pause = const Duration(seconds: 1, milliseconds: 200);
+
+    await Future.delayed(pause);
+    _key.currentState.pose = FancyButtonPose.shown_icon;
+    await Future.delayed(pause);
+    _key.currentState.pose = FancyButtonPose.shown_icon_and_label;
+
+    // Tail call, please?
+    // Is that a thing with asyncs?
+    return animate();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('fancy_button')),
       floatingActionButton: FancyButton(
+        key: _key,
         icon: const Icon(Icons.cake),
-        label: const Text('LIE'),
+        label: const Text('THE CAKE IS A LIE'),
         onPressed: () => print('on pressed'),
         onTouchDown: () => print('on touch down'),
         onTouchUp: () => print('on touch up'),
