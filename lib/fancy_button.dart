@@ -24,6 +24,7 @@
 library fancy_button;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// The pose of a fancy button.
 enum FancyButtonPose {
@@ -1082,7 +1083,7 @@ class _FancyButtonCore extends StatelessWidget {
           left: _computePaddingA(),
           right: _computePaddingB(),
         ),
-        child: Opacity(
+        child: _Opacity(
           opacity: _computeOpacity1(),
           child: icon,
         ),
@@ -1100,7 +1101,7 @@ class _FancyButtonCore extends StatelessWidget {
           left: _computePaddingC(),
           right: _computePaddingD(),
         ),
-        child: Opacity(
+        child: _Opacity(
           opacity: _computeOpacity2(),
           child: label,
         ),
@@ -1117,5 +1118,58 @@ class _FancyButtonCore extends StatelessWidget {
         _buildGroup2(),
       ],
     );
+  }
+}
+
+/// An opacity widget that doesn't take shortcuts.
+class _Opacity extends SingleChildRenderObjectWidget {
+  /// The desired opacity value.
+  final double opacity;
+
+  _Opacity({
+    Key key,
+    @required this.opacity,
+    @required Widget child,
+  }) : super(key: key, child: child);
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderOpacity(opacity: opacity);
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderOpacity renderObject) {
+    renderObject.opacity = opacity;
+  }
+}
+
+/// An always-compositing opacity render object.
+class _RenderOpacity extends RenderProxyBox {
+  /// The desired opacity value.
+  double _opacity;
+
+  _RenderOpacity({
+    double opacity = 1.0,
+  }) : _opacity = opacity;
+
+  /// Get the desired opacity value.
+  get opacity => _opacity;
+
+  /// Set the desired opacity value.
+  set opacity(double opacity) {
+    if (opacity == _opacity) return;
+
+    _opacity = opacity;
+    markNeedsPaint();
+  }
+
+  @override
+  bool get alwaysNeedsCompositing => child != null;
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    if (child != null) {
+      context.pushOpacity(offset, (_opacity * 255.0).round(), super.paint);
+    }
   }
 }
