@@ -64,9 +64,9 @@ class _HomePageState extends State<HomePage> {
     final pause = const Duration(seconds: 1, milliseconds: 200);
 
     await Future.delayed(pause);
-    _key.currentState.pose = FancyButtonPose.shown_icon;
-    await Future.delayed(pause);
     _key.currentState.pose = FancyButtonPose.shown_label;
+    await Future.delayed(pause);
+    _key.currentState.pose = FancyButtonPose.shown_icon_and_label;
 
     // Tail call, please?
     // Is that a thing with asyncs?
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         key: _key,
         icon: const Icon(Icons.cake),
         initialPose: FancyButtonPose.shown_label,
-        label: const Text('THE CAKE IS A LIE'),
+        label: const Text('THE CAKE'),
         onPressed: () => print('on pressed'),
         onTouchDown: () => print('on touch down'),
         onTouchUp: () => print('on touch up'),

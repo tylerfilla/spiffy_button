@@ -131,7 +131,7 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
     _poseAnimation = AnimationController(
       vsync: this,
       // TODO: Eventually, we might want to break this out
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 300),
     )..addListener(() => setState(() {}));
 
     // Initialize pose with or without animation
@@ -203,7 +203,17 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   double _computeMinWidth() {
     switch (_posePrevious) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (_poseCurrent) {
           case FancyButtonPose.hidden:
@@ -228,7 +238,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The minimum width remains constant
+            return 48.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -239,7 +250,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The minimum width remains constant
+            return 48.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
@@ -252,7 +264,17 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   double _computeMaxWidth() {
     switch (_posePrevious) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (_poseCurrent) {
           case FancyButtonPose.hidden:
@@ -277,7 +299,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The max width remains unconstrained
+            return double.infinity;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -288,7 +311,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
             // Invariant: The max width remains unconstrained
             return double.infinity;
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The max width remains unconstrained
+            return double.infinity;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
@@ -301,7 +325,17 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   double _computeMinHeight() {
     switch (_posePrevious) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (_poseCurrent) {
           case FancyButtonPose.hidden:
@@ -326,7 +360,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The minimum height remains constant
+            return 48.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -337,7 +372,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The minimum height remains constant
+            return 48.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
@@ -350,7 +386,17 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   double _computeMaxHeight() {
     switch (_posePrevious) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (_poseCurrent) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (_poseCurrent) {
           case FancyButtonPose.hidden:
@@ -375,7 +421,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The maximum height remains constant
+            return 48.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -386,7 +433,8 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The maximum height remains constant
+            return 48.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
@@ -540,7 +588,17 @@ class _FancyButtonCore extends StatelessWidget {
   double _computeWidthFactor1() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -565,7 +623,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 0.0 to 1.0
+            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -576,20 +635,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Invariant: The icon stays visible
             return 1.0;
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 1.0 to 0.0
+            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 1.0;
+    return 0;
   }
 
   /// Compute the width factor of group 2.
   double _computeWidthFactor2() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -614,7 +684,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The label stays visible
+            return 1.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -625,20 +696,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The label stays visible
+            return 1.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 1.0;
+    return 0;
   }
 
   /// Compute the opacity of group 1.
   double _computeOpacity1() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -663,7 +745,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 0.0 to 1.0
+            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -674,20 +757,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Invariant: The icon stays visible
             return 1.0;
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 1.0 to 0.0
+            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 1.0;
+    return 0;
   }
 
   /// Compute the opacity of group 2.
   double _computeOpacity2() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -712,7 +806,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The label stays visible
+            return 1.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -723,20 +818,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: The label stays visible
+            return 1.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 1.0;
+    return 0;
   }
 
   /// Compute padding A.
   double _computePaddingA() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -761,7 +867,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 0.0 to 12.0
+            return Tween(begin: 0.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -772,20 +879,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 12.0 to 16.0
             return Tween(begin: 12.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 12.0 to 0.0
+            return Tween(begin: 12.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 12.0;
+    return 0;
   }
 
   /// Compute padding B.
   double _computePaddingB() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -810,7 +928,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 0.0 to 6.0
+            return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -821,20 +940,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 0.0 to 16.0
             return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 6.0 to 0.0
+            return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 6.0;
+    return 0;
   }
 
   /// Compute padding C.
   double _computePaddingC() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -859,7 +989,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 20.0 to 6.0
+            return Tween(begin: 20.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -870,20 +1001,31 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 6.0 to 0.0
             return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Tween from 6.0 to 20.0
+            return Tween(begin: 6.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 6.0;
+    return 0;
   }
 
   /// Compute padding D.
   double _computePaddingD() {
     switch (fromPose) {
       case FancyButtonPose.hidden:
-        return 0; // FIXME: Not implemented
+        switch (toPose) {
+          case FancyButtonPose.hidden:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_label:
+            return 0; // FIXME: Not implemented
+          case FancyButtonPose.shown_icon_and_label:
+            return 0; // FIXME: Not implemented
+        }
+        break;
       case FancyButtonPose.shown_icon:
         switch (toPose) {
           case FancyButtonPose.hidden:
@@ -908,7 +1050,8 @@ class _FancyButtonCore extends StatelessWidget {
           case FancyButtonPose.shown_label:
             return 0; // FIXME: Not implemented
           case FancyButtonPose.shown_icon_and_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: Padding D remains constant
+            return 20.0;
         }
         break;
       case FancyButtonPose.shown_icon_and_label:
@@ -919,13 +1062,14 @@ class _FancyButtonCore extends StatelessWidget {
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
           case FancyButtonPose.shown_label:
-            return 0; // FIXME: Not implemented
+            // Invariant: Padding D remains constant
+            return 20.0;
           case FancyButtonPose.shown_icon_and_label:
             return 0; // FIXME: Not implemented
         }
     }
 
-    return 20.0;
+    return 0;
   }
 
   /// Build the group 1 widget.
