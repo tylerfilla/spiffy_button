@@ -83,8 +83,12 @@ class _HomePageState extends State<HomePage> {
         initialPose: FancyButtonPose.shown_icon,
         label: const Text('THE CAKE'),
         onPressed: () => print('on pressed'),
-        onTouchDown: () => print('on touch down'),
-        onTouchUp: () => print('on touch up'),
+        onTouchDown: () {
+          _key.currentState.elevation = 12.0;
+        },
+        onTouchUp: () {
+          _key.currentState.elevation = 6.0;
+        },
       ),
     );
   }

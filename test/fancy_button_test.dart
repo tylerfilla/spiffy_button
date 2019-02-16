@@ -308,6 +308,54 @@ void main() {
     });
   });
 
+  testWidgets('default elevation propagation', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+
+    expect(key.currentState.elevation, equals(6.0));
+  });
+
+  testWidgets('initial elevation propagation', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+          initialElevation: 42.0,
+        ),
+      ),
+    );
+
+    expect(key.currentState.elevation, equals(42.0));
+  });
+
+  testWidgets('updated elevation propagation (roundtrip)', (tester) async {
+    final key = GlobalKey<FancyButtonState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: FancyButton(
+          key: key,
+          icon: const Icon(Icons.cake),
+        ),
+      ),
+    );
+
+    key.currentState.elevation = -1234.5;
+
+    expect(key.currentState.elevation, equals(-1234.5));
+  });
+
   testWidgets('default pose propagation', (tester) async {
     final key = GlobalKey<FancyButtonState>();
 

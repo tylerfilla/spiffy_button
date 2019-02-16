@@ -67,6 +67,11 @@ class FancyButton extends StatefulWidget {
   /// At least one of [icon] and [label] must be non-null.
   final Widget label;
 
+  /// The initial elevation.
+  ///
+  /// By default, this is 6.0.
+  final double initialElevation;
+
   /// The initial pose.
   ///
   /// By default, this is [FancyButtonPose.shown_icon].
@@ -99,6 +104,7 @@ class FancyButton extends StatefulWidget {
     this.foregroundColor,
     this.icon,
     this.label,
+    this.initialElevation = 6.0,
     this.initialPose = FancyButtonPose.shown_icon,
     this.animateInitialPose = false,
     this.onPressed,
@@ -114,7 +120,16 @@ class FancyButton extends StatefulWidget {
 }
 
 /// State and control for a fancy button.
-class FancyButtonState extends State<FancyButton> with SingleTickerProviderStateMixin {
+class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin {
+  /// The elevation animation controller.
+  AnimationController _elevationAnimation;
+
+  /// The current elevation
+  double _elevationCurrent;
+
+  /// The previous elevation.
+  double _elevationPrevious;
+
   /// The pose animation controller.
   AnimationController _poseAnimation;
 
@@ -127,6 +142,21 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
   @override
   void initState() {
     super.initState();
+
+    // Initialize elevation animation
+    _elevationAnimation = AnimationController(
+      vsync: this,
+      // TODO: Break this out
+      duration: kThemeChangeDuration,
+    )..addListener(() => setState(() {}));
+
+    // Initialize elevation
+    // Fake a completed elevation animation
+    setState(() {
+      _elevationAnimation.value = 1;
+      _elevationCurrent = widget.initialElevation;
+      _elevationPrevious = 0;
+    });
 
     // Initialize pose animation
     _poseAnimation = AnimationController(
@@ -153,8 +183,28 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
 
   @override
   void dispose() {
+    _elevationAnimation.dispose();
     _poseAnimation.dispose();
+
     super.dispose();
+  }
+
+  /// Get the current elevation.
+  get elevation => _elevationCurrent;
+
+  /// Set the current elevation.
+  set elevation(double elevation) {
+    // If this elevation is already current, do nothing
+    if (elevation == _elevationCurrent) return;
+
+    // Update elevation state
+    setState(() {
+      _elevationPrevious = _elevationCurrent;
+      _elevationCurrent = elevation;
+    });
+
+    // Start the elevation animation
+    _elevationAnimation.forward(from: 0);
   }
 
   /// Get the current pose.
@@ -472,7 +522,9 @@ class FancyButtonState extends State<FancyButton> with SingleTickerProviderState
       ),
       child: Material(
         color: bg,
-        elevation: 6.0,
+        animationDuration: Duration.zero,
+        elevation: Tween(begin: _elevationPrevious, end: _elevationCurrent)
+            .transform(Curves.fastOutSlowIn.transform(_elevationAnimation.value)),
         shape: const StadiumBorder(),
         type: MaterialType.button,
         textStyle: theme.accentTextTheme.button.copyWith(
