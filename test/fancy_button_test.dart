@@ -368,7 +368,7 @@ void main() {
       ),
     );
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shown_icon));
+    expect(key.currentState.pose, equals(FancyButtonPose.shownIcon));
   });
 
   testWidgets('initial pose propagation', (tester) async {
@@ -379,12 +379,12 @@ void main() {
         home: FancyButton(
           key: key,
           icon: const Icon(Icons.cake),
-          initialPose: FancyButtonPose.shown_icon_and_label,
+          initialPose: FancyButtonPose.shownIconAndLabel,
         ),
       ),
     );
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shown_icon_and_label));
+    expect(key.currentState.pose, equals(FancyButtonPose.shownIconAndLabel));
   });
 
   testWidgets('updated pose propagation (roundtrip)', (tester) async {
@@ -399,8 +399,8 @@ void main() {
       ),
     );
 
-    key.currentState.pose = FancyButtonPose.shown_label;
+    key.currentState.pose = FancyButtonPose.shownLabel;
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shown_label));
+    expect(key.currentState.pose, equals(FancyButtonPose.shownLabel));
   });
 }
