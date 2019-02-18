@@ -72,6 +72,16 @@ class FancyButton extends StatefulWidget {
   /// By default, this is 6.0.
   final double initialElevation;
 
+  /// The raised elevation.
+  ///
+  /// By default, this is 12.0.
+  final double raisedElevation;
+
+  /// Whether to raise the button on touch.
+  ///
+  /// By default, this is true.
+  final bool raiseOnTouch;
+
   /// The initial pose.
   ///
   /// By default, this is [FancyButtonPose.shown_icon].
@@ -105,6 +115,8 @@ class FancyButton extends StatefulWidget {
     this.icon,
     this.label,
     this.initialElevation = 6.0,
+    this.raisedElevation = 12.0,
+    this.raiseOnTouch = true,
     this.initialPose = FancyButtonPose.shown_icon,
     this.animateInitialPose = false,
     this.onPressed,
@@ -229,10 +241,22 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// used to drive the touch-down and touch-up events of the fancy button.
   void _onInkWellHighlightChanged(bool value) {
     if (value) {
+      // Raise the button on touch (if desired)
+      if (widget.raiseOnTouch) {
+        elevation = widget.raisedElevation;
+      }
+
+      // Fire off user touch down callback
       if (widget.onTouchDown != null) {
         widget.onTouchDown();
       }
     } else {
+      // Lower the button back down (if desired)
+      if (widget.raiseOnTouch) {
+        elevation = widget.initialElevation;
+      }
+
+      // Fire off user touch up callback
       if (widget.onTouchUp != null) {
         widget.onTouchUp();
       }

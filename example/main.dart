@@ -79,16 +79,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: const Text('fancy_button')),
       floatingActionButton: FancyButton(
         key: _key,
-        icon: const Icon(Icons.cake),
+        icon: const Icon(Icons.add),
         initialPose: FancyButtonPose.shown_icon,
-        label: const Text('THE CAKE'),
-        onPressed: () => print('on pressed'),
-        onTouchDown: () {
-          _key.currentState.elevation = 12.0;
-        },
-        onTouchUp: () {
-          _key.currentState.elevation = 6.0;
-        },
+        label: const Text('CREATE'),
       ),
     );
   }
