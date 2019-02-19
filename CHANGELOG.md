@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A changelog!
 - A means of specifying the desired easing curve for pose transitions.
 - Exported SpiffyButtonCore for general use (it's stable enough now).
+- Initial mini FAB support!
 
 ### Changed
 Nothing yet!
