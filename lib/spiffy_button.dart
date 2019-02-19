@@ -479,7 +479,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
           onTap: _onInkWellTap,
           child: ClipPath(
             clipper: const ShapeBorderClipper(shape: StadiumBorder()),
-            child: _SpiffyButtonCore(
+            child: SpiffyButtonCore(
               icon: widget.icon == null
                   ? null
                   : IconTheme.merge(
@@ -557,7 +557,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
 /// This split establishes a semantic boundary between the icon, its padding,
 /// the label, and the label's padding. This makes animating in/out either the
 /// icon or the widget, with its respective padding, pretty easy.
-class _SpiffyButtonCore extends StatelessWidget {
+class SpiffyButtonCore extends StatelessWidget {
   /// The button icon.
   ///
   /// At least one of [icon] and [label] must be non-null.
@@ -579,10 +579,10 @@ class _SpiffyButtonCore extends StatelessWidget {
   /// The progress of the current transition.
   final double progress;
 
-  /// The animation curve.
+  /// The animation curve for the current transition.
   final Curve curve;
 
-  _SpiffyButtonCore({
+  SpiffyButtonCore({
     Key key,
     this.icon,
     this.label,
