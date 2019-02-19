@@ -1,4 +1,5 @@
 /*
+ * Spiffy Button
  * Copyright (c) 2019 Tyler Filla
  *
  * This software is provided 'as-is', without any express or implied
@@ -21,13 +22,13 @@
  *    distribution.
  */
 
-library fancy_button;
+library spiffy_button;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-/// The pose of a fancy button.
-enum FancyButtonPose {
+/// The pose of a spiffy button.
+enum SpiffyButtonPose {
   /// The button is shown, and only its icon is visible.
   shownIcon,
 
@@ -38,12 +39,12 @@ enum FancyButtonPose {
   shownIconAndLabel,
 }
 
-/// A fancy button :)
+/// A spiffy button :)
 ///
 /// This is a custom implementation of Material Design's floating action button
-/// (FAB) with better support for its fancy animations between states than the
+/// (FAB) with better support for its spiffy animations between states than the
 /// built-in [FloatingActionButton] implementation.
-class FancyButton extends StatefulWidget {
+class SpiffyButton extends StatefulWidget {
   /// The background color. This is used for the button surface.
   ///
   /// By default, the inherited theme's accent color is used.
@@ -81,8 +82,8 @@ class FancyButton extends StatefulWidget {
 
   /// The initial pose.
   ///
-  /// By default, this is [FancyButtonPose.shownIcon].
-  final FancyButtonPose initialPose;
+  /// By default, this is [SpiffyButtonPose.shownIcon].
+  final SpiffyButtonPose initialPose;
 
   /// The button pressed callback.
   ///
@@ -100,7 +101,7 @@ class FancyButton extends StatefulWidget {
   /// This is triggered when the user releases their finger from the button.
   final VoidCallback onTouchUp;
 
-  FancyButton({
+  SpiffyButton({
     Key key,
     this.backgroundColor,
     this.foregroundColor,
@@ -109,7 +110,7 @@ class FancyButton extends StatefulWidget {
     this.initialElevation = 6.0,
     this.raisedElevation = 12.0,
     this.raiseOnTouch = true,
-    this.initialPose = FancyButtonPose.shownIcon,
+    this.initialPose = SpiffyButtonPose.shownIcon,
     this.onPressed,
     this.onTouchDown,
     this.onTouchUp,
@@ -118,12 +119,12 @@ class FancyButton extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return FancyButtonState();
+    return SpiffyButtonState();
   }
 }
 
-/// State and control for a fancy button.
-class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin {
+/// State and control for a spiffy button.
+class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixin {
   /// The elevation animation controller.
   AnimationController _elevationAnimation;
 
@@ -137,10 +138,10 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   AnimationController _poseAnimation;
 
   /// The current pose.
-  FancyButtonPose _poseCurrent;
+  SpiffyButtonPose _poseCurrent;
 
   /// The previous pose.
-  FancyButtonPose _posePrevious;
+  SpiffyButtonPose _posePrevious;
 
   @override
   void initState() {
@@ -172,7 +173,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
     setState(() {
       _poseAnimation.value = 1;
       _poseCurrent = widget.initialPose;
-      _posePrevious = FancyButtonPose.shownIconAndLabel;
+      _posePrevious = SpiffyButtonPose.shownIconAndLabel;
     });
   }
 
@@ -206,7 +207,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   get pose => _poseCurrent;
 
   /// Set the current pose.
-  set pose(FancyButtonPose pose) {
+  set pose(SpiffyButtonPose pose) {
     // If this pose is already current, do nothing
     if (pose == _poseCurrent) return;
 
@@ -221,7 +222,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   }
 
   /// Called when the highlight state of the button ink well changes. This is
-  /// used to drive the touch-down and touch-up events of the fancy button.
+  /// used to drive the touch-down and touch-up events of the spiffy button.
   void _onInkWellHighlightChanged(bool value) {
     if (value) {
       // Raise the button on touch (if desired)
@@ -247,9 +248,9 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   }
 
   /// Called when the button ink well is tapped. This is used to drive the
-  /// pressed event of the fancy button. Also, by supplying an internal callback
-  /// for the ink well's tap event, the ink well is permanently enabled
-  /// regardless of the user's choice to supply a pressed callback to the fancy
+  /// pressed event of the spiffy button. Also, by supplying an internal
+  /// callback for the ink well's tap event, the ink well is permanently enabled
+  /// regardless of the user's choice to supply a pressed callback to the spiffy
   /// button.
   void _onInkWellTap() {
     if (widget.onPressed != null) {
@@ -260,41 +261,41 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the minimum width constraint.
   double _computeMinWidth() {
     switch (_posePrevious) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The minimum width remains constant
             return 48.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The minimum width remains constant
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 48.0;
         }
@@ -306,41 +307,41 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the maximum width constraint.
   double _computeMaxWidth() {
     switch (_posePrevious) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return double.infinity;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The max width remains unconstrained
             return double.infinity;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The max width remains unconstrained
             return double.infinity;
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: The max width remains unconstrained
             return double.infinity;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return double.infinity;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The max width remains unconstrained
             return double.infinity;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: The max width remains unconstrained
             return double.infinity;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The max width remains unconstrained
             return double.infinity;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return double.infinity;
         }
@@ -352,41 +353,41 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the minimum height constraint. (TODO: Why do we tween the minimums, again, Tyler?)
   double _computeMinHeight() {
     switch (_posePrevious) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The minimum height remains constant
             return 48.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The minimum height remains constant
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 48.0;
         }
@@ -398,41 +399,41 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the maximum height constraint.
   double _computeMaxHeight() {
     switch (_posePrevious) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
             return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The maximum height remains constant
             return 48.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The maximum height remains constant
             return 48.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 48.0;
         }
@@ -472,7 +473,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
           onTap: _onInkWellTap,
           child: ClipPath(
             clipper: const ShapeBorderClipper(shape: StadiumBorder()),
-            child: _FancyButtonCore(
+            child: _SpiffyButtonCore(
               icon: widget.icon == null
                   ? null
                   : IconTheme.merge(
@@ -491,7 +492,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   }
 }
 
-/// The core of a fancy button.
+/// The core of a spiffy button.
 ///
 /// This widget combines the icon and label of a Material Design-style floating
 /// action button (FAB) into a single "core" evaluated at an instant in time.
@@ -549,7 +550,7 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
 /// This split establishes a semantic boundary between the icon, its padding,
 /// the label, and the label's padding. This makes animating in/out either the
 /// icon or the widget, with its respective padding, pretty easy.
-class _FancyButtonCore extends StatelessWidget {
+class _SpiffyButtonCore extends StatelessWidget {
   /// The button icon.
   ///
   /// At least one of [icon] and [label] must be non-null.
@@ -561,17 +562,17 @@ class _FancyButtonCore extends StatelessWidget {
   final Widget label;
 
   /// The leading pose in the current transition.
-  final FancyButtonPose toPose;
+  final SpiffyButtonPose toPose;
 
   /// The lagging pose in the current transition.
   ///
   /// This is ignored if, and only if, progress is zero.
-  final FancyButtonPose fromPose;
+  final SpiffyButtonPose fromPose;
 
   /// The progress of the current transition.
   final double progress;
 
-  _FancyButtonCore({
+  _SpiffyButtonCore({
     Key key,
     this.icon,
     this.label,
@@ -587,41 +588,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the width factor of group 1.
   double _computeWidthFactor1() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 1.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The icon stays visible
             return 1.0;
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: The icon stays visible
             return 1.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
         }
@@ -633,41 +634,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the width factor of group 2.
   double _computeWidthFactor2() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 1.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The label stays visible
             return 1.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The label stays visible
             return 1.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
         }
@@ -679,41 +680,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the opacity of group 1.
   double _computeOpacity1() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 1.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The icon stays visible
             return 1.0;
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: The icon stays visible
             return 1.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
         }
@@ -725,41 +726,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the opacity of group 2.
   double _computeOpacity2() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 1.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The label stays visible
             return 1.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: The label stays visible
             return 1.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
         }
@@ -771,41 +772,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding A.
   double _computePaddingA() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 16.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 16.0 to 0.0
             return Tween(begin: 16.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 16.0 to 12.0
             return Tween(begin: 16.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
             return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 12.0
             return Tween(begin: 0.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 12.0 to 16.0
             return Tween(begin: 12.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 12.0 to 0.0
             return Tween(begin: 12.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 12.0;
         }
@@ -817,41 +818,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding B.
   double _computePaddingB() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 16.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 16.0 to 0.0
             return Tween(begin: 16.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 16.0 to 6.0
             return Tween(begin: 16.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
             return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 6.0
             return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 6.0 to 16.0
             return Tween(begin: 6.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 6.0 to 0.0
             return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 6.0;
         }
@@ -863,41 +864,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding C.
   double _computePaddingC() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 20.0
             return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 6.0
             return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 20.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 20.0 to 6.0
             return Tween(begin: 20.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 6.0 to 0.0
             return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 6.0 to 20.0
             return Tween(begin: 6.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 6.0;
         }
@@ -909,41 +910,41 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding D.
   double _computePaddingD() {
     switch (fromPose) {
-      case FancyButtonPose.shownIcon:
+      case SpiffyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 20.0
             return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 20.0
             return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
         }
         break;
-      case FancyButtonPose.shownLabel:
+      case SpiffyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 20.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: Padding D remains constant
             return 20.0;
         }
         break;
-      case FancyButtonPose.shownIconAndLabel:
+      case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.shownIcon:
+          case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
-          case FancyButtonPose.shownLabel:
+          case SpiffyButtonPose.shownLabel:
             // Invariant: Padding D remains constant
             return 20.0;
-          case FancyButtonPose.shownIconAndLabel:
+          case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 20.0;
         }

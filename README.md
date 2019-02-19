@@ -1,6 +1,7 @@
-# fancy_button (not production-ready)
+# spiffy_button (not production-ready)
 
-[![Build Status](https://travis-ci.org/tylerfilla/fancy_button.svg?branch=master)](https://travis-ci.org/tylerfilla/fancy_button)
+[![Build Status](https://travis-ci.org/tylerfilla/spiffy_button.svg?branch=master)](https://travis-ci.org/tylerfilla/spiffy_button)
+[![Package](https://img.shields.io/pub/v/spiffy_button.svg?style=flat)](https://pub.dartlang.org/packages/spiffy_button)
 
 A spiffy little button widget for Flutter modeled after Material Design
 floating action buttons (FABs).

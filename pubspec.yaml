@@ -1,8 +1,8 @@
-name: fancy_button
+name: spiffy_button
 description: A spiffy little button widget
 version: 0.1.0
-author: Tyler Filla
-homepage: https://github.com/tylerfilla/fancy_button
+author: Tyler Filla <tylerfilla@hotmail.com>
+homepage: https://github.com/tylerfilla/spiffy_button
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

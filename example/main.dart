@@ -1,4 +1,5 @@
 /*
+ * Spiffy Button
  * Copyright (c) 2019 Tyler Filla
  *
  * This software is provided 'as-is', without any express or implied
@@ -21,7 +22,7 @@
  *    distribution.
  */
 
-import 'package:fancy_button/fancy_button.dart';
+import 'package:spiffy_button/spiffy_button.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -32,7 +33,7 @@ class Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'fancy_button',
+      title: 'spiffy_button',
       theme: ThemeData(
         primaryColor: Colors.deepPurple,
         accentColor: Colors.amberAccent,
@@ -50,7 +51,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _key = GlobalKey<FancyButtonState>();
+  final _key = GlobalKey<SpiffyButtonState>();
 
   @override
   void initState() {
@@ -64,23 +65,21 @@ class _HomePageState extends State<HomePage> {
     final pause = const Duration(seconds: 1, milliseconds: 200);
 
     await Future.delayed(pause);
-    _key.currentState.pose = FancyButtonPose.shownIconAndLabel;
+    _key.currentState.pose = SpiffyButtonPose.shownIconAndLabel;
     await Future.delayed(pause);
-    _key.currentState.pose = FancyButtonPose.shownIcon;
+    _key.currentState.pose = SpiffyButtonPose.shownIcon;
 
-    // Tail call, please?
-    // Is that a thing with asyncs?
     return animate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('fancy_button')),
-      floatingActionButton: FancyButton(
+      appBar: AppBar(title: const Text('spiffy_button')),
+      floatingActionButton: SpiffyButton(
         key: _key,
         icon: const Icon(Icons.add),
-        initialPose: FancyButtonPose.shownIcon,
+        initialPose: SpiffyButtonPose.shownIcon,
         label: const Text('CREATE'),
       ),
     );

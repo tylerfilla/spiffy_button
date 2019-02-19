@@ -1,4 +1,5 @@
 /*
+ * Spiffy Button
  * Copyright (c) 2019 Tyler Filla
  *
  * This software is provided 'as-is', without any express or implied
@@ -24,7 +25,7 @@
 import 'dart:convert' as convert;
 import 'dart:ui' as ui;
 
-import 'package:fancy_button/fancy_button.dart';
+import 'package:spiffy_button/spiffy_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,7 +33,7 @@ void main() {
   testWidgets('create with just icon', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           icon: const Icon(Icons.cake),
         ),
       ),
@@ -42,7 +43,7 @@ void main() {
   testWidgets('create with just label', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           label: const Text('LIE'),
         ),
       ),
@@ -52,7 +53,7 @@ void main() {
   testWidgets('create with both icon and label', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           icon: const Icon(Icons.cake),
           label: const Text('LIE'),
         ),
@@ -66,7 +67,7 @@ void main() {
     try {
       await tester.pumpWidget(
         MaterialApp(
-          home: FancyButton(),
+          home: SpiffyButton(),
         ),
       );
     } catch (e) {
@@ -77,11 +78,11 @@ void main() {
   });
 
   testWidgets('look up state by global key', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
         ),
@@ -96,14 +97,14 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           icon: const Icon(Icons.cake),
           onPressed: onPressed,
         ),
       ),
     );
 
-    await tester.tap(find.byType(FancyButton));
+    await tester.tap(find.byType(SpiffyButton));
   });
 
   testWidgets('touch-down event callback', (tester) async {
@@ -111,7 +112,7 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           icon: const Icon(Icons.cake),
           onTouchDown: onTouchDown,
         ),
@@ -119,7 +120,7 @@ void main() {
     );
 
     // Just test the press (not the whole tap)
-    await tester.press(find.byType(FancyButton));
+    await tester.press(find.byType(SpiffyButton));
   });
 
   testWidgets('touch-up event callback', (tester) async {
@@ -127,14 +128,14 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           icon: const Icon(Icons.cake),
           onTouchUp: onTouchUp,
         ),
       ),
     );
 
-    await tester.tap(find.byType(FancyButton));
+    await tester.tap(find.byType(SpiffyButton));
   });
 
   testWidgets('create with theme colors', (tester) async {
@@ -148,7 +149,7 @@ void main() {
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
-            child: FancyButton(
+            child: SpiffyButton(
               icon: const Icon(Icons.cake),
             ),
           ),
@@ -157,7 +158,7 @@ void main() {
     );
 
     // Look up element for button
-    final element = tester.element(find.byType(FancyButton));
+    final element = tester.element(find.byType(SpiffyButton));
 
     // Look up nearest repaint boundary
     var ro = element.renderObject;
@@ -219,7 +220,7 @@ void main() {
         ),
         home: Scaffold(
           floatingActionButton: RepaintBoundary(
-            child: FancyButton(
+            child: SpiffyButton(
               // These colors SHOULD influence the button (unfortunately...they're hideous)
               backgroundColor: Colors.purpleAccent,
               foregroundColor: Colors.yellowAccent,
@@ -231,7 +232,7 @@ void main() {
     );
 
     // Look up element for button
-    final element = tester.element(find.byType(FancyButton));
+    final element = tester.element(find.byType(SpiffyButton));
 
     // Look up nearest repaint boundary
     var ro = element.renderObject;
@@ -309,11 +310,11 @@ void main() {
   });
 
   testWidgets('default elevation propagation', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
         ),
@@ -324,11 +325,11 @@ void main() {
   });
 
   testWidgets('initial elevation propagation', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
           initialElevation: 42.0,
@@ -340,11 +341,11 @@ void main() {
   });
 
   testWidgets('updated elevation propagation (roundtrip)', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
         ),
@@ -357,50 +358,50 @@ void main() {
   });
 
   testWidgets('default pose propagation', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
         ),
       ),
     );
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shownIcon));
+    expect(key.currentState.pose, equals(SpiffyButtonPose.shownIcon));
   });
 
   testWidgets('initial pose propagation', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
-          initialPose: FancyButtonPose.shownIconAndLabel,
+          initialPose: SpiffyButtonPose.shownIconAndLabel,
         ),
       ),
     );
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shownIconAndLabel));
+    expect(key.currentState.pose, equals(SpiffyButtonPose.shownIconAndLabel));
   });
 
   testWidgets('updated pose propagation (roundtrip)', (tester) async {
-    final key = GlobalKey<FancyButtonState>();
+    final key = GlobalKey<SpiffyButtonState>();
 
     await tester.pumpWidget(
       MaterialApp(
-        home: FancyButton(
+        home: SpiffyButton(
           key: key,
           icon: const Icon(Icons.cake),
         ),
       ),
     );
 
-    key.currentState.pose = FancyButtonPose.shownLabel;
+    key.currentState.pose = SpiffyButtonPose.shownLabel;
 
-    expect(key.currentState.pose, equals(FancyButtonPose.shownLabel));
+    expect(key.currentState.pose, equals(SpiffyButtonPose.shownLabel));
   });
 }
