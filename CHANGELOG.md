@@ -6,15 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-
-Nothing yet!
+- A changelog!
+- A means of specifying the desired easing curve for pose transitions.
 
 ### Changed
-
 Nothing yet!
 
 ### Removed
-
 Nothing yet!
 
 ## [0.1.0] - 2019-02-19

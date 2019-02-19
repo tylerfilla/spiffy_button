@@ -101,6 +101,11 @@ class SpiffyButton extends StatefulWidget {
   /// This is triggered when the user releases their finger from the button.
   final VoidCallback onTouchUp;
 
+  /// The button animation curve.
+  ///
+  /// This is used to animate between poses. By default, this is [Curves.fastOutSlowIn]
+  final Curve curve;
+
   SpiffyButton({
     Key key,
     this.backgroundColor,
@@ -114,6 +119,7 @@ class SpiffyButton extends StatefulWidget {
     this.onPressed,
     this.onTouchDown,
     this.onTouchUp,
+    this.curve = Curves.fastOutSlowIn,
   })  : assert((icon ?? label) != null, 'one of icon and label must be non-null'),
         super(key: key);
 
@@ -268,17 +274,17 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
             return 56.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
@@ -291,7 +297,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: The minimum width remains constant
             return 48.0;
@@ -360,17 +366,17 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
             return 56.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
@@ -383,7 +389,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: The minimum height remains constant
             return 48.0;
@@ -406,17 +412,17 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
             return 56.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 56.0 to 48.0
-            return Tween(begin: 56.0, end: 48.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 56.0, end: 48.0).transform(widget.curve.transform(_poseAnimation.value));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 48.0;
@@ -429,7 +435,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
         switch (_poseCurrent) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
-            return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
+            return Tween(begin: 48.0, end: 56.0).transform(widget.curve.transform(_poseAnimation.value));
           case SpiffyButtonPose.shownLabel:
             // Invariant: The maximum height remains constant
             return 48.0;
@@ -460,7 +466,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
         color: bg,
         animationDuration: Duration.zero,
         elevation: Tween(begin: _elevationPrevious, end: _elevationCurrent)
-            .transform(Curves.fastOutSlowIn.transform(_elevationAnimation.value)),
+            .transform(widget.curve.transform(_elevationAnimation.value)),
         shape: const StadiumBorder(),
         type: MaterialType.button,
         textStyle: theme.accentTextTheme.button.copyWith(
@@ -484,6 +490,7 @@ class SpiffyButtonState extends State<SpiffyButton> with TickerProviderStateMixi
               toPose: _poseCurrent,
               fromPose: _posePrevious,
               progress: _poseAnimation.value,
+              curve: widget.curve,
             ),
           ),
         ),
@@ -572,6 +579,9 @@ class _SpiffyButtonCore extends StatelessWidget {
   /// The progress of the current transition.
   final double progress;
 
+  /// The animation curve.
+  final Curve curve;
+
   _SpiffyButtonCore({
     Key key,
     this.icon,
@@ -579,6 +589,7 @@ class _SpiffyButtonCore extends StatelessWidget {
     @required this.toPose,
     this.fromPose,
     @required this.progress,
+    @required this.curve,
   })  : // Assert one of icon and/or label non-null
         assert((icon ?? label) != null),
         // Assert fromPose non-null when progress > 0
@@ -595,7 +606,7 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 1.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The icon stays visible
             return 1.0;
@@ -605,13 +616,13 @@ class _SpiffyButtonCore extends StatelessWidget {
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownIconAndLabel:
@@ -621,7 +632,7 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 1.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
@@ -641,17 +652,17 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 0.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 1.0;
@@ -664,7 +675,7 @@ class _SpiffyButtonCore extends StatelessWidget {
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: The label stays visible
             return 1.0;
@@ -687,7 +698,7 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 1.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: The icon stays visible
             return 1.0;
@@ -697,13 +708,13 @@ class _SpiffyButtonCore extends StatelessWidget {
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownIconAndLabel:
@@ -713,7 +724,7 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 1.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 1.0;
@@ -733,17 +744,17 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 0.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 1.0
-            return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 1.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 1.0;
@@ -756,7 +767,7 @@ class _SpiffyButtonCore extends StatelessWidget {
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
-            return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 1.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: The label stays visible
             return 1.0;
@@ -779,33 +790,33 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 16.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 16.0 to 0.0
-            return Tween(begin: 16.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 16.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 16.0 to 12.0
-            return Tween(begin: 16.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 16.0, end: 12.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
-            return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 16.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 12.0
-            return Tween(begin: 0.0, end: 12.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 12.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 12.0 to 16.0
-            return Tween(begin: 12.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 12.0, end: 16.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Tween from 12.0 to 0.0
-            return Tween(begin: 12.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 12.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 12.0;
@@ -825,33 +836,33 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 16.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 16.0 to 0.0
-            return Tween(begin: 16.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 16.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 16.0 to 6.0
-            return Tween(begin: 16.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 16.0, end: 6.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
-            return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 16.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 0.0;
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 6.0
-            return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 6.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 6.0 to 16.0
-            return Tween(begin: 6.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 6.0, end: 16.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Tween from 6.0 to 0.0
-            return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 6.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 6.0;
@@ -871,33 +882,33 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 0.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 20.0
-            return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 20.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 6.0
-            return Tween(begin: 0.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 6.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
-            return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 20.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 20.0;
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 20.0 to 6.0
-            return Tween(begin: 20.0, end: 6.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 20.0, end: 6.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownIconAndLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 6.0 to 0.0
-            return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 6.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Tween from 6.0 to 20.0
-            return Tween(begin: 6.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 6.0, end: 20.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Invariant: No change in pose
             return 6.0;
@@ -917,17 +928,17 @@ class _SpiffyButtonCore extends StatelessWidget {
             return 0.0;
           case SpiffyButtonPose.shownLabel:
             // Tween from 0.0 to 20.0
-            return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 20.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownIconAndLabel:
             // Tween from 0.0 to 20.0
-            return Tween(begin: 0.0, end: 20.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 0.0, end: 20.0).transform(curve.transform(progress));
         }
         break;
       case SpiffyButtonPose.shownLabel:
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
-            return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 20.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: No change in pose
             return 20.0;
@@ -940,7 +951,7 @@ class _SpiffyButtonCore extends StatelessWidget {
         switch (toPose) {
           case SpiffyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
-            return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
+            return Tween(begin: 20.0, end: 0.0).transform(curve.transform(progress));
           case SpiffyButtonPose.shownLabel:
             // Invariant: Padding D remains constant
             return 20.0;

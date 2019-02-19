@@ -61,6 +61,17 @@ void main() {
     );
   });
 
+  testWidgets('create with easing curve', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SpiffyButton(
+          icon: const Icon(Icons.cake),
+          curve: Curves.bounceOut,
+        ),
+      ),
+    );
+  });
+
   testWidgets('create requires one of icon or label to be non-null', (tester) async {
     final confirm = expectAsync0(() {}, reason: 'confirmation of proper throw');
 

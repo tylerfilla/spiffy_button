@@ -79,8 +79,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: SpiffyButton(
         key: _key,
         icon: const Icon(Icons.add),
-        initialPose: SpiffyButtonPose.shownIcon,
         label: const Text('CREATE'),
+        initialPose: SpiffyButtonPose.shownIcon,
       ),
     );
   }
