@@ -28,9 +28,6 @@ import 'package:flutter/rendering.dart';
 
 /// The pose of a fancy button.
 enum FancyButtonPose {
-  /// The button is hidden from view.
-  hidden,
-
   /// The button is shown, and only its icon is visible.
   shownIcon,
 
@@ -87,11 +84,6 @@ class FancyButton extends StatefulWidget {
   /// By default, this is [FancyButtonPose.shownIcon].
   final FancyButtonPose initialPose;
 
-  /// Whether to animate to the initial pose.
-  ///
-  /// By default, this is false.
-  final bool animateInitialPose;
-
   /// The button pressed callback.
   ///
   /// This is triggered after a full touch-down/touch-up cycle. See the
@@ -118,7 +110,6 @@ class FancyButton extends StatefulWidget {
     this.raisedElevation = 12.0,
     this.raiseOnTouch = true,
     this.initialPose = FancyButtonPose.shownIcon,
-    this.animateInitialPose = false,
     this.onPressed,
     this.onTouchDown,
     this.onTouchUp,
@@ -177,20 +168,12 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
       duration: const Duration(milliseconds: 300),
     )..addListener(() => setState(() {}));
 
-    // Initialize pose with or without animation
-    if (widget.animateInitialPose) {
-      // Transition to initial pose from hidden
-      // Use the code path that provide animation
-      _poseCurrent = FancyButtonPose.hidden;
-      pose = widget.initialPose;
-    } else {
-      // Fudge a completed transition to the initial pose
-      setState(() {
-        _poseAnimation.value = 1;
-        _poseCurrent = widget.initialPose;
-        _posePrevious = FancyButtonPose.shownIconAndLabel;
-      });
-    }
+    // Fudge a completed transition to the initial pose
+    setState(() {
+      _poseAnimation.value = 1;
+      _poseCurrent = widget.initialPose;
+      _posePrevious = FancyButtonPose.shownIconAndLabel;
+    });
   }
 
   @override
@@ -277,22 +260,8 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the minimum width constraint.
   double _computeMinWidth() {
     switch (_posePrevious) {
-      case FancyButtonPose.hidden:
-        switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
@@ -306,8 +275,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -321,8 +288,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -341,22 +306,8 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the maximum width constraint.
   double _computeMaxWidth() {
     switch (_posePrevious) {
-      case FancyButtonPose.hidden:
-        switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return double.infinity;
@@ -370,8 +321,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: The max width remains unconstrained
             return double.infinity;
@@ -385,8 +334,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: The max width remains unconstrained
             return double.infinity;
@@ -402,25 +349,11 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
     return 0;
   }
 
-  /// Compute the minimum height constraint.
+  /// Compute the minimum height constraint. (TODO: Why do we tween the minimums, again, Tyler?)
   double _computeMinHeight() {
     switch (_posePrevious) {
-      case FancyButtonPose.hidden:
-        switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
@@ -434,8 +367,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -449,8 +380,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -469,22 +398,8 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
   /// Compute the maximum height constraint.
   double _computeMaxHeight() {
     switch (_posePrevious) {
-      case FancyButtonPose.hidden:
-        switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 56.0;
@@ -498,8 +413,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -513,8 +426,6 @@ class FancyButtonState extends State<FancyButton> with TickerProviderStateMixin 
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (_poseCurrent) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 48.0 to 56.0
             return Tween(begin: 48.0, end: 56.0).transform(Curves.fastOutSlowIn.transform(_poseAnimation.value));
@@ -676,22 +587,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the width factor of group 1.
   double _computeWidthFactor1() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 1.0;
@@ -705,8 +602,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -720,8 +615,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: The icon stays visible
             return 1.0;
@@ -740,22 +633,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the width factor of group 2.
   double _computeWidthFactor2() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
@@ -769,8 +648,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -784,8 +661,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -804,22 +679,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the opacity of group 1.
   double _computeOpacity1() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 1.0;
@@ -833,8 +694,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 0.0 to 1.0
             return Tween(begin: 0.0, end: 1.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -848,8 +707,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: The icon stays visible
             return 1.0;
@@ -868,22 +725,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute the opacity of group 2.
   double _computeOpacity2() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
@@ -897,8 +740,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -912,8 +753,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 1.0 to 0.0
             return Tween(begin: 1.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -932,22 +771,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding A.
   double _computePaddingA() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 16.0;
@@ -961,8 +786,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
             return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -976,8 +799,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 12.0 to 16.0
             return Tween(begin: 12.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -996,22 +817,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding B.
   double _computePaddingB() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 16.0;
@@ -1025,8 +832,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 0.0 to 16.0
             return Tween(begin: 0.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -1040,8 +845,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 6.0 to 16.0
             return Tween(begin: 6.0, end: 16.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -1060,22 +863,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding C.
   double _computePaddingC() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
@@ -1089,8 +878,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -1104,8 +891,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 6.0 to 0.0
             return Tween(begin: 6.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -1124,22 +909,8 @@ class _FancyButtonCore extends StatelessWidget {
   /// Compute padding D.
   double _computePaddingD() {
     switch (fromPose) {
-      case FancyButtonPose.hidden:
-        switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIcon:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownLabel:
-            return 0; // FIXME: Not implemented
-          case FancyButtonPose.shownIconAndLabel:
-            return 0; // FIXME: Not implemented
-        }
-        break;
       case FancyButtonPose.shownIcon:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Invariant: No change in pose
             return 0.0;
@@ -1153,8 +924,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
@@ -1168,8 +937,6 @@ class _FancyButtonCore extends StatelessWidget {
         break;
       case FancyButtonPose.shownIconAndLabel:
         switch (toPose) {
-          case FancyButtonPose.hidden:
-            return 0; // FIXME: Not implemented
           case FancyButtonPose.shownIcon:
             // Tween from 20.0 to 0.0
             return Tween(begin: 20.0, end: 0.0).transform(Curves.fastOutSlowIn.transform(progress));
