@@ -1261,6 +1261,73 @@ class SpiffyButtonCore extends StatelessWidget {
   }
 }
 
+/// A spiffy button menu.
+///
+/// This attempts to implement the "related actions" popup menu concept for
+/// Material Design floating action buttons (FABs). To use this, make one and
+/// push it onto your [Navigator].
+///
+/// An instance of this route needs to take a reference to your spiffy button's
+/// state in order to communicate with it. For now, this can be obtained via a
+/// [GlobalKey] passed to the spiffy button's "key" parameter.
+///
+/// TODO: Test the constructor parameters and some pixel colors
+class SpiffyButtonMenuRoute extends PopupRoute {
+  /// The spiffy button state. This is required for communication with the
+  /// spiffy button to coordinate animations and poses. For now, this can be
+  /// obtained via a [GlobalKey] passed to the spiffy button's "key" parameter.
+  /// They say global keys are relatively heavy, but then again FABs should be
+  /// used sparingly to begin with.
+  final SpiffyButtonState buttonState;
+
+  /// The color of the scrim.
+  ///
+  /// By default, this is [Colors.black45]
+  final Color scrimColor;
+
+  /// Whether or not the scrim is dismissable.
+  ///
+  /// By default, this is true.
+  final bool scrimDismissable;
+
+  /// The accessibility description for the scrim. This may be read aloud by
+  /// text-to-speech software to tell the user they must first dismiss the scrim
+  /// to interact with other app widgets.
+  ///
+  /// By default, this is the English text "Close the menu."
+  final String scrimContentDescription;
+
+  /// Duration of the popup transition.
+  ///
+  /// By default, this is [kThemeChangeDuration].
+  final Duration popupDuration;
+
+  SpiffyButtonMenuRoute({
+    @required this.buttonState,
+    this.scrimColor = Colors.black45,
+    this.scrimDismissable = true,
+    this.scrimContentDescription = 'Close the menu.',
+    this.popupDuration = kThemeChangeDuration,
+  }) : assert(buttonState != null);
+
+  @override
+  get barrierColor => scrimColor;
+
+  @override
+  get barrierDismissible => scrimDismissable;
+
+  @override
+  get barrierLabel => scrimContentDescription;
+
+  @override
+  get transitionDuration => popupDuration;
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    return Container();
+  }
+}
+
 /// An opacity widget that doesn't take shortcuts.
 class _Opacity extends SingleChildRenderObjectWidget {
   /// The desired opacity value.

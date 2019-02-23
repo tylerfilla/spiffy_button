@@ -51,14 +51,25 @@ class _HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<_HomePage> {
+  final _key = GlobalKey<SpiffyButtonState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('spiffy_button')),
       floatingActionButton: SpiffyButton(
+        key: _key,
         icon: const Icon(Icons.add),
         label: const Text('CREATE'),
         initialPose: SpiffyButtonPose.shownIconAndLabel,
+        onPressed: () {
+          // Open the menu
+          Navigator.of(context).push(
+            SpiffyButtonMenuRoute(
+              buttonState: _key.currentState,
+            ),
+          );
+        },
       ),
     );
   }
