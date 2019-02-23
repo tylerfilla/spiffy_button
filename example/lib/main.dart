@@ -22,8 +22,8 @@
  *    distribution.
  */
 
-import 'package:spiffy_button/spiffy_button.dart';
 import 'package:flutter/material.dart';
+import 'package:spiffy_button/spiffy_button.dart';
 
 void main() {
   runApp(Example());
@@ -38,49 +38,27 @@ class Example extends StatelessWidget {
         primaryColor: Colors.deepPurple,
         accentColor: Colors.amberAccent,
       ),
-      home: HomePage(),
+      home: _HomePage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class _HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
   }
 }
 
-class _HomePageState extends State<HomePage> {
-  final _key = GlobalKey<SpiffyButtonState>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Start the animation sequence
-    animate();
-  }
-
-  void animate() async {
-    final pause = const Duration(seconds: 1, milliseconds: 200);
-
-    await Future.delayed(pause);
-    _key.currentState.pose = SpiffyButtonPose.shownIconAndLabel;
-    await Future.delayed(pause);
-    _key.currentState.pose = SpiffyButtonPose.shownIcon;
-
-    return animate();
-  }
-
+class _HomePageState extends State<_HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('spiffy_button')),
       floatingActionButton: SpiffyButton(
-        key: _key,
         icon: const Icon(Icons.add),
         label: const Text('CREATE'),
-        initialPose: SpiffyButtonPose.shownIcon,
+        initialPose: SpiffyButtonPose.shownIconAndLabel,
       ),
     );
   }

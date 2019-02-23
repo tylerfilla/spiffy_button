@@ -1,0 +1,13 @@
+name: example
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  spiffy_button:
+    path: ../
+
+flutter:
+    uses-material-design: true
